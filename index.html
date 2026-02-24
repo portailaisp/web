@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AISP 2.0 – Solidarité Progrès Développement</title>
+  
+  <!-- Tailwind CSS CDN (version minimale, très légère) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+    .module { animation: fadeIn 0.4s ease-in; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Menu mobile */
+    @media (max-width: 768px) {
+      #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 80%;
+        z-index: 50;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      #sidebar.open { transform: translateX(0); }
+      #overlay { display: block; }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+
+  <!-- Overlay pour fermer menu mobile -->
+  <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" onclick="toggleSidebar()"></div>
+
+  <div class="flex flex-col md:flex-row min-h-screen">
+
+    <!-- Sidebar (menu arbre) -->
+    <aside id="sidebar" class="w-full md:w-72 bg-white border-r shadow-lg flex flex-col">
+      <div class="p-6 border-b">
+        <h1 class="text-2xl font-bold text-blue-700">AISP 2.0</h1>
+        <p class="text-sm text-gray-500" data-lang-key="devise">Solidarité – Progrès – Développement</p>
+
+        <!-- Drapeaux langue -->
+        <div class="mt-4 flex gap-4 justify-center">
+          <button onclick="setLanguage('fr')" class="text-2xl hover:scale-110 transition" title="Français">🇫🇷</button>
+          <button onclick="setLanguage('en')" class="text-2xl hover:scale-110 transition" title="English">🇬🇧</button>
+        </div>
+      </div>
+
+      <nav class="flex-1 p-4 overflow-y-auto">
+        <ul class="space-y-2">
+          <li>
+            <a href="#" onclick="showModule('accueil')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+              🏠 <span data-lang-key="accueil">Accueil</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="showModule('comptes')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+              💰 <span data-lang-key="comptes">Comptes & Caisses</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="showModule('utilisateurs')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+              👥 <span data-lang-key="utilisateurs">Utilisateurs & Rôles</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="showModule('securite')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+              🔒 <span data-lang-key="securite">Sécurité</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" onclick="showModule('evenements')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+              📅 <span data-lang-key="evenements">Événements</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="p-4 border-t">
+        <button onclick="logout()" class="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg font-medium">
+          <span data-lang-key="deconnexion">Déconnexion</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="flex-1 p-6 md:p-10 overflow-y-auto">
+      <!-- Bouton menu mobile -->
+      <button class="md:hidden mb-4 bg-blue-600 text-white px-4 py-2 rounded" onclick="toggleSidebar()">
+        ☰ Menu
+      </button>
+
+      <!-- Modules -->
+      <div id="accueil" class="module">
+        <h2 class="text-3xl font-bold mb-4" data-lang-key="accueil-titre">Bienvenue dans l’Arbre AISP</h2>
+        <p class="text-lg text-gray-600 mb-6" data-lang-key="accueil-description">Choisissez une branche dans le menu pour commencer.</p>
+      </div>
+
+      <div id="comptes" class="module hidden">
+        <h2 class="text-3xl font-bold mb-4" data-lang-key="comptes-titre">Comptes des Membres & Caisses</h2>
+        <p data-lang-key="comptes-description">Suivi des cotisations, épargne, dépenses et autres mouvements financiers.</p>
+        <!-- Ici viendra le tableau ou le formulaire plus tard -->
+      </div>
+
+      <div id="utilisateurs" class="module hidden">
+        <h2 class="text-3xl font-bold mb-4" data-lang-key="utilisateurs-titre">Utilisateurs & Rôles</h2>
+        <p data-lang-key="utilisateurs-description">Gestion des super administrateurs, administrateurs, utilisateurs, membres et visiteurs.</p>
+      </div>
+
+      <div id="securite" class="module hidden">
+        <h2 class="text-3xl font-bold mb-4" data-lang-key="securite-titre">Sécurité & Connexion</h2>
+        <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
+          <h3 class="text-xl font-semibold mb-4" data-lang-key="login-titre">Se connecter</h3>
+          <input type="email" placeholder="Email" class="w-full p-3 mb-3 border rounded" id="email">
+          <input type="password" placeholder="Mot de passe" class="w-full p-3 mb-4 border rounded" id="password">
+          <button onclick="login()" class="w-full bg-blue-600 text-white py-3 rounded font-medium hover:bg-blue-700">
+            <span data-lang-key="se-connecter">Se connecter</span>
+          </button>
+        </div>
+      </div>
+
+      <div id="evenements" class="module hidden">
+        <h2 class="text-3xl font-bold mb-4" data-lang-key="evenements-titre">Événements & Formations</h2>
+        <p data-lang-key="evenements-description">Calendrier des prochaines activités, formations et rencontres.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/lang.js"></script>
+  <script>
+    // Gestion menu mobile
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('overlay').classList.toggle('hidden');
+    }
+
+    // Afficher un module
+    function showModule(id) {
+      document.querySelectorAll('.module').forEach(m => m.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+      if (window.innerWidth < 768) toggleSidebar(); // ferme menu mobile
+    }
+
+    // Déconnexion (simple pour l’instant)
+    function logout() {
+      alert("Déconnexion simulée. À implémenter plus tard.");
+    }
+
+    // Login simple (pour test)
+    function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      alert("Connexion simulée pour : " + email + "\nMot de passe : " + password);
+    }
+
+    // Afficher accueil au démarrage
+    showModule('accueil');
+  </script>
+</body>
+</html>
