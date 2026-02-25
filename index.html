@@ -79,6 +79,11 @@
               📅 <span data-lang-key="evenements">Événements</span>
             </a>
           </li>
+           <li>
+            <a href="#" onclick="showModule('rapports')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
+              📊 <span data-lang-key="rapports">Rapports & États</span>
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -128,7 +133,53 @@
       <div id="evenements" class="module hidden">
         <h2 class="text-3xl font-bold mb-4" data-lang-key="evenements-titre">Événements & Formations</h2>
         <p data-lang-key="evenements-description">Calendrier des prochaines activités, formations et rencontres.</p>
-      </div>
+      </div> <div id="rapports" class="module hidden">
+  <h2 class="text-3xl font-bold mb-6" data-lang-key="rapports-titre">Rapports & États</h2>
+  <p class="text-lg text-gray-600 mb-8" data-lang-key="rapports-description">
+    Générez et exportez les états financiers et administratifs nécessaires à la transparence et au contrôle.
+  </p>
+
+  <!-- Sélecteur d'état -->
+  <div class="bg-white p-6 rounded-lg shadow mb-8">
+    <label class="block text-lg font-medium mb-3" data-lang-key="choisir-etat">Choisir l'état à générer :</label>
+    <select id="etat-select" class="w-full p-3 border rounded mb-6 text-base">
+      <option value="">-- Sélectionner un état --</option>
+      <option value="liste-membres">Liste complète des membres</option>
+      <option value="membres-a-jour">Membres à jour</option>
+      <option value="membres-endettes">Membres endettés / en retard</option>
+      <option value="membres-critique">Membres en situation critique</option>
+      <option value="cagnotte-emprunts">Cagnotte disponible pour les emprunts</option>
+      <option value="membres-empruntables">Membres pouvant emprunter</option>
+      <option value="interets-depots">Intérêts générés par les dépôts</option>
+      <option value="mouvements-recents">Mouvements financiers récents (30 jours)</option>
+      <option value="bilan-tresorerie">Bilan de trésorerie simplifié</option>
+      <option value="historique-cotisations">Historique cotisations par membre</option>
+    </select>
+
+    <!-- Boutons d'action -->
+    <div class="flex flex-wrap gap-4">
+      <button onclick="genererRapport()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-medium">
+        <span data-lang-key="generer">Générer</span>
+      </button>
+      <button onclick="exporterPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded font-medium">
+        <span data-lang-key="exporter-pdf">Exporter PDF</span>
+      </button>
+      <button onclick="exporterExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded font-medium">
+        <span data-lang-key="exporter-excel">Exporter Excel</span>
+      </button>
+      <button onclick="exporterWord()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-medium">
+        <span data-lang-key="exporter-word">Exporter Word</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Zone d'affichage du rapport -->
+  <div id="rapport-content" class="bg-white p-6 rounded-lg shadow min-h-[400px] overflow-auto">
+    <p class="text-gray-500 text-center py-12" data-lang-key="rapport-vide">
+      Sélectionnez un état et cliquez sur "Générer"
+    </p>
+  </div>
+  </div>
     </main>
   </div>
 
