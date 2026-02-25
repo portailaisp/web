@@ -1,4 +1,5 @@
 // js/lang.js – Gestion multilingue FR / EN pour l'arbre AISP
+// Version complète – tous les textes connus sont traduits
 
 // Objet contenant toutes les traductions
 const texts = {
@@ -13,6 +14,7 @@ const texts = {
     "utilisateurs": "Utilisateurs & Rôles",
     "securite": "Sécurité",
     "evenements": "Événements",
+    "rapports": "Rapports & États",
 
     // Module Accueil
     "accueil-titre": "Bienvenue dans l’Arbre AISP",
@@ -55,7 +57,6 @@ const texts = {
     "inscription": "S'inscrire",
 
     // Module Rapports & États
-    "rapports": "Rapports & États",
     "rapports-titre": "Rapports & États",
     "rapports-description": "Générez et exportez les états financiers et administratifs nécessaires à la transparence et au contrôle.",
     "choisir-etat": "Choisir l'état à générer :",
@@ -73,7 +74,14 @@ const texts = {
     "interets-depots": "Intérêts générés par les dépôts",
     "mouvements-recents": "Mouvements financiers récents (30 jours)",
     "bilan-tresorerie": "Bilan de trésorerie simplifié",
-    "historique-cotisations": "Historique cotisations par membre"
+    "historique-cotisations": "Historique cotisations par membre",
+    "recettes-depenses": "Recettes vs Dépenses (année en cours)",
+    "ecart-budget": "Écart budget prévisionnel / réalisé",
+    "conventions-reglementees": "Conventions réglementées",
+    "alerte-continuite": "Alertes sur continuité d’exploitation",
+    "risques-financiers": "Risques financiers identifiés",
+    "inventaire-immobilisations": "Inventaire des immobilisations",
+    "subventions-recues": "Subventions et dons reçus"
   },
 
   en: {
@@ -130,7 +138,6 @@ const texts = {
     "inscription": "Register",
 
     // Module Rapports & États
-    "rapports": "Reports & Statements",
     "rapports-titre": "Reports & Statements",
     "rapports-description": "Generate and export financial and administrative statements required for transparency and control.",
     "choisir-etat": "Select the statement to generate:",
@@ -149,6 +156,13 @@ const texts = {
     "mouvements-recents": "Recent financial movements (30 days)",
     "bilan-tresorerie": "Simplified cash balance",
     "historique-cotisations": "Contribution history per member",
+    "recettes-depenses": "Revenue vs Expenses (current year)",
+    "ecart-budget": "Budget variance (forecast vs actual)",
+    "conventions-reglementees": "Regulated agreements",
+    "alerte-continuite": "Going concern alerts",
+    "risques-financiers": "Identified financial risks",
+    "inventaire-immobilisations": "Fixed assets inventory",
+    "subventions-recues": "Grants and donations received"
   }
 };
 
@@ -168,13 +182,15 @@ function setLanguage(lang) {
     if (texts[lang][key]) {
       if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
         el.placeholder = texts[lang][key];  // pour les champs de formulaire
+      } else if (el.tagName === 'SELECT' && el.options) {
+        // Pour les options de select (optionnel – à gérer manuellement si besoin)
       } else {
         el.textContent = texts[lang][key];
       }
     }
   });
 
-  // Optionnel : mise à jour de l'attribut lang sur <html> pour accessibilité
+  // Mise à jour de l'attribut lang sur <html> pour accessibilité et SEO
   document.documentElement.lang = lang;
 }
 
@@ -182,3 +198,9 @@ function setLanguage(lang) {
 document.addEventListener('DOMContentLoaded', () => {
   setLanguage(currentLang);
 });
+
+// Pour debug : fonction pour voir la langue actuelle
+function debugLang() {
+  console.log('Langue actuelle :', currentLang);
+  console.log('localStorage aisp-lang :', localStorage.getItem('aisp-lang'));
+}
