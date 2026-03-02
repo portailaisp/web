@@ -1,7 +1,6 @@
-// js/lang.js – Gestion multilingue FR / EN – Version corrigée et renforcée (2026-03-02)
-// Résout le problème des <select> et options non traduites
+// js/lang.js – Gestion multilingue FR / EN – Version définitive corrigée (2026-03-02)
+// Met à jour titres, descriptions, boutons, placeholders, label du select ET options du select
 
-// Objet contenant toutes les traductions
 const texts = {
   fr: {
     // Header / général
@@ -87,11 +86,9 @@ const texts = {
   },
 
   en: {
-    // Header / général
     "devise": "Solidarity – Progress – Development",
     "deconnexion": "Logout",
 
-    // Menu latéral
     "accueil": "Home",
     "comptes": "Accounts & Cash Registers",
     "utilisateurs": "Users & Roles",
@@ -99,11 +96,9 @@ const texts = {
     "evenements": "Events",
     "rapports": "Reports & Statements",
 
-    // Module Accueil
     "accueil-titre": "Welcome to the AISP Tree",
     "accueil-description": "Choose a branch from the left menu to get started.",
 
-    // Module Comptes
     "comptes-titre": "Members Accounts & Cash Registers",
     "comptes-description": "Tracking of dues, savings, expenses and other financial movements.",
     "ajouter-cotisation": "Add a contribution",
@@ -113,7 +108,6 @@ const texts = {
     "paye": "Paid",
     "en-attente": "Pending",
 
-    // Module Utilisateurs & Rôles
     "utilisateurs-titre": "Users & Roles Management",
     "utilisateurs-description": "Super admins, admins, users, members, visitors and other roles.",
     "super-admin": "Super Administrator",
@@ -122,7 +116,6 @@ const texts = {
     "membre": "Member",
     "visiteur": "Visitor",
 
-    // Module Sécurité / Login
     "securite-titre": "Security & Login",
     "securite-description": "Log in to access protected areas.",
     "login-titre": "Sign In",
@@ -131,7 +124,6 @@ const texts = {
     "se-connecter": "Sign In",
     "mot-de-passe-oublie": "Forgot password?",
 
-    // Module Événements
     "evenements-titre": "Events & Training",
     "evenements-description": "Calendar of upcoming AISP activities, trainings and meetings.",
     "date": "Date",
@@ -139,7 +131,6 @@ const texts = {
     "description": "Description",
     "inscription": "Register",
 
-    // Module Rapports & États
     "rapports-titre": "Reports & Statements",
     "rapports-description": "Generate and export financial and administrative statements required for transparency and control.",
     "choisir-etat": "Select the statement to generate:",
@@ -149,7 +140,7 @@ const texts = {
     "exporter-word": "Export Word",
     "rapport-vide": "Select a statement and click \"Generate\"",
 
-    // Options du select Rapports
+    // Options du select Rapports (en anglais)
     "liste-membres": "Full list of members",
     "membres-a-jour": "Members up to date",
     "membres-endettes": "Members in debt / overdue",
@@ -170,17 +161,15 @@ const texts = {
   }
 };
 
-// Langue actuelle
 let currentLang = localStorage.getItem('aisp-lang') || 'fr';
 
-// Fonction principale pour changer la langue
 function setLanguage(lang) {
   if (!['fr', 'en'].includes(lang)) return;
 
   currentLang = lang;
   localStorage.setItem('aisp-lang', lang);
 
-  // 1. Mise à jour des textes normaux et placeholders
+  // Mise à jour des éléments classiques (textContent, placeholder)
   document.querySelectorAll('[data-lang-key]').forEach(el => {
     const key = el.getAttribute('data-lang-key');
     if (texts[lang][key]) {
@@ -192,13 +181,14 @@ function setLanguage(lang) {
     }
   });
 
-  // 2. Mise à jour spécifique du label "Choisir l'état à générer :"
-  const labelChoix = document.querySelector('label[for="etat-select"]');
-  if (labelChoix && texts[lang]["choisir-etat"]) {
-    labelChoix.textContent = texts[lang]["choisir-etat"];
+  // Mise à jour forcée du label du select (par attribut for ou data-lang-key)
+  const label = document.querySelector('label[for="etat-select"]') ||
+                document.querySelector('label[data-lang-key="choisir-etat"]');
+  if (label && texts[lang]["choisir-etat"]) {
+    label.textContent = texts[lang]["choisir-etat"];
   }
 
-  // 3. Mise à jour complète des <option> du select Rapports
+  // Mise à jour renforcée des options du select
   const select = document.getElementById('etat-select');
   if (select) {
     Array.from(select.options).forEach(option => {
@@ -208,15 +198,17 @@ function setLanguage(lang) {
       }
     });
 
-    // Force un rafraîchissement visuel du select (parfois nécessaire sur certains navigateurs)
-    select.dispatchEvent(new Event('change'));
+    // Forcer le rafraîchissement visuel du select (trick connu pour certains navigateurs)
+    const parent = select.parentNode;
+    const clone = select.cloneNode(true);
+    parent.replaceChild(clone, select);
   }
 
-  // Mise à jour de l'attribut lang sur <html> (accessibilité + SEO)
+  // Accessibilité
   document.documentElement.lang = lang;
 }
 
-// Initialisation au chargement de la page
+// Lancement au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
   setLanguage(currentLang);
 });
