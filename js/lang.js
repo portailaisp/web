@@ -1,5 +1,5 @@
-// js/lang.js – Gestion multilingue FR / EN pour l'arbre AISP
-// Version complète – tous les textes connus sont traduits
+// js/lang.js – Gestion multilingue FR / EN – Version corrigée 2026-03-02
+// Met à jour les titres, descriptions, boutons, placeholders ET les <option> du select
 
 // Objet contenant toutes les traductions
 const texts = {
@@ -65,6 +65,8 @@ const texts = {
     "exporter-excel": "Exporter Excel",
     "exporter-word": "Exporter Word",
     "rapport-vide": "Sélectionnez un état et cliquez sur \"Générer\"",
+
+    // Options du select Rapports
     "liste-membres": "Liste complète des membres",
     "membres-a-jour": "Membres à jour",
     "membres-endettes": "Membres endettés / en retard",
@@ -146,6 +148,8 @@ const texts = {
     "exporter-excel": "Export Excel",
     "exporter-word": "Export Word",
     "rapport-vide": "Select a statement and click \"Generate\"",
+
+    // Options du select Rapports
     "liste-membres": "Full list of members",
     "membres-a-jour": "Members up to date",
     "membres-endettes": "Members in debt / overdue",
@@ -166,41 +170,44 @@ const texts = {
   }
 };
 
-// Langue actuelle (par défaut français, ou dernière préférence sauvegardée)
+// Langue actuelle
 let currentLang = localStorage.getItem('aisp-lang') || 'fr';
 
-// Fonction pour changer la langue
+// Fonction principale pour changer la langue
 function setLanguage(lang) {
   if (!['fr', 'en'].includes(lang)) return;
 
   currentLang = lang;
   localStorage.setItem('aisp-lang', lang);
 
-  // Mettre à jour tous les éléments qui ont data-lang-key
+  // 1. Mise à jour des textes normaux et placeholders
   document.querySelectorAll('[data-lang-key]').forEach(el => {
     const key = el.getAttribute('data-lang-key');
     if (texts[lang][key]) {
       if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-        el.placeholder = texts[lang][key];  // pour les champs de formulaire
-      } else if (el.tagName === 'SELECT' && el.options) {
-        // Pour les options de select (optionnel – à gérer manuellement si besoin)
+        el.placeholder = texts[lang][key];
       } else {
         el.textContent = texts[lang][key];
       }
     }
   });
 
-  // Mise à jour de l'attribut lang sur <html> pour accessibilité et SEO
+  // 2. Mise à jour spécifique des <option> du select Rapports
+  const select = document.getElementById('etat-select');
+  if (select) {
+    Array.from(select.options).forEach(option => {
+      const key = option.value;
+      if (key && texts[lang][key]) {
+        option.textContent = texts[lang][key];
+      }
+    });
+  }
+
+  // Mise à jour de l'attribut lang sur <html> (accessibilité + SEO)
   document.documentElement.lang = lang;
 }
 
-// Initialisation au chargement de la page
+// Initialisation au chargement
 document.addEventListener('DOMContentLoaded', () => {
   setLanguage(currentLang);
 });
-
-// Pour debug : fonction pour voir la langue actuelle
-function debugLang() {
-  console.log('Langue actuelle :', currentLang);
-  console.log('localStorage aisp-lang :', localStorage.getItem('aisp-lang'));
-}
