@@ -20,15 +20,15 @@ const texts = {
     "accueil-description": "Choisissez une branche dans le menu de gauche pour commencer.",
 
     // Module Comptes
-    "comptes-titre": "Comptes des Membres & Caisses",
-    "comptes-description": "Suivi des cotisations, épargne, dépenses et autres mouvements financiers.",
-    "ajouter-cotisation": "Ajouter une cotisation",
-    "montant": "Montant",
-    "mois": "Mois",
-    "statut": "Statut",
-    "paye": "Payé",
-    "en-attente": "En attente",
-    "membre": "Membre",  // Ici !
+"comptes-titre": "Comptes des Membres & Caisses",
+"comptes-description": "Suivi des cotisations, épargne, dépenses et autres mouvements financiers.",
+"ajouter-cotisation": "Ajouter une cotisation",  // Ici !
+"montant": "Montant",
+"mois": "Mois",
+"statut": "Statut",
+"paye": "Payé",
+"en-attente": "En attente",
+"membre": "Membre",  // Ici !
 
     // Module Utilisateurs & Rôles
     "utilisateurs-titre": "Gestion des Utilisateurs & Rôles",
@@ -100,16 +100,17 @@ const texts = {
     "accueil-titre": "Welcome to the AISP Tree",
     "accueil-description": "Choose a branch from the left menu to get started.",
 
-    "comptes-titre": "Members Accounts & Cash Registers",
-    "comptes-description": "Tracking of dues, savings, expenses and other financial movements.",
-    "ajouter-cotisation": "Add a contribution",
-    "montant": "Amount",
-    "mois": "Month",
-    "statut": "Status",
-    "paye": "Paid",
-    "en-attente": "Pending",
-    "membre": "Member",  // Ici !
-
+// Module Comptes
+"comptes-titre": "Members Accounts & Cash Registers",
+"comptes-description": "Tracking of dues, savings, expenses and other financial movements.",
+"ajouter-cotisation": "Add a contribution",  // Ici !
+"montant": "Amount",
+"mois": "Month",
+"statut": "Status",
+"paye": "Paid",
+"en-attente": "Pending",
+"membre": "Member",  // Ici !
+    
     "utilisateurs-titre": "Users & Roles Management",
     "utilisateurs-description": "Super admins, admins, users, members, visitors and other roles.",
     "super-admin": "Super Administrator",
