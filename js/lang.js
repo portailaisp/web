@@ -1,5 +1,5 @@
-// js/lang.js – Gestion multilingue FR / EN – Version corrigée 2026-03-02
-// Met à jour les titres, descriptions, boutons, placeholders ET les <option> du select
+// js/lang.js – Gestion multilingue FR / EN – Version corrigée et renforcée (2026-03-02)
+// Résout le problème des <select> et options non traduites
 
 // Objet contenant toutes les traductions
 const texts = {
@@ -192,22 +192,31 @@ function setLanguage(lang) {
     }
   });
 
-  // 2. Mise à jour spécifique des <option> du select Rapports
+  // 2. Mise à jour spécifique du label "Choisir l'état à générer :"
+  const labelChoix = document.querySelector('label[for="etat-select"]');
+  if (labelChoix && texts[lang]["choisir-etat"]) {
+    labelChoix.textContent = texts[lang]["choisir-etat"];
+  }
+
+  // 3. Mise à jour complète des <option> du select Rapports
   const select = document.getElementById('etat-select');
   if (select) {
     Array.from(select.options).forEach(option => {
       const key = option.value;
       if (key && texts[lang][key]) {
-        option.textContent = texts[lang][key];
+        option.text = texts[lang][key];
       }
     });
+
+    // Force un rafraîchissement visuel du select (parfois nécessaire sur certains navigateurs)
+    select.dispatchEvent(new Event('change'));
   }
 
   // Mise à jour de l'attribut lang sur <html> (accessibilité + SEO)
   document.documentElement.lang = lang;
 }
 
-// Initialisation au chargement
+// Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
   setLanguage(currentLang);
 });
