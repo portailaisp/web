@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AISP 2.0 – Solidarité Progrès Développement</title>
-  
-  <!-- Tailwind CSS CDN (version minimale, très légère) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
   <style>
     body { font-family: system-ui, -apple-system, sans-serif; }
     .module { animation: fadeIn 0.4s ease-in; }
@@ -30,6 +27,10 @@
       #sidebar.open { transform: translateX(0); }
       #overlay { display: block; }
     }
+    table { border-collapse: collapse; }
+    th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+    th { background-color: #f2f2f2; }
+    input, select, textarea { border: 1px solid #ddd; padding: 8px; border-radius: 4px; }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -40,7 +41,7 @@
   <div class="flex flex-col md:flex-row min-h-screen">
 
     <!-- Sidebar (menu arbre) -->
-    <aside id="sidebar" class="w-full md:w-72 bg-white border-r shadow-lg flex flex-col">
+    <aside id="sidebar" class="w-full md:w-64 bg-white border-r shadow-lg flex flex-col">
       <div class="p-6 border-b">
         <h1 class="text-2xl font-bold text-blue-700">AISP 2.0</h1>
         <p class="text-sm text-gray-500" data-lang-key="devise">Solidarité – Progrès – Développement</p>
@@ -79,7 +80,7 @@
               📅 <span data-lang-key="evenements">Événements</span>
             </a>
           </li>
-           <li>
+          <li>
             <a href="#" onclick="showModule('rapports')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
               📊 <span data-lang-key="rapports">Rapports & États</span>
             </a>
@@ -104,183 +105,97 @@
       <!-- Modules -->
       <div id="accueil" class="module">
         <h2 class="text-3xl font-bold mb-4" data-lang-key="accueil-titre">Bienvenue dans l’Arbre AISP</h2>
-        <p class="text-lg text-gray-600 mb-6" data-lang-key="accueil-description">Choisissez une branche dans le menu pour commencer.</p>
+        <p class="text-lg text-gray-600" data-lang-key="accueil-description">Choisissez une branche dans le menu de gauche pour commencer.</p>
       </div>
 
       <div id="comptes" class="module hidden">
         <h2 class="text-3xl font-bold mb-4" data-lang-key="comptes-titre">Comptes des Membres & Caisses</h2>
-        <p data-lang-key="comptes-description">Suivi des cotisations, épargne, dépenses et autres mouvements financiers.</p>
-        <!-- Ici viendra le tableau ou le formulaire plus tard -->
+        <p class="text-lg text-gray-600 mb-6" data-lang-key="comptes-description">Suivi des cotisations, épargne, dépenses et autres mouvements financiers.</p>
+
+        <!-- Formulaire d'ajout -->
+        <div class="bg-white p-6 rounded-lg shadow mb-8">
+          <h3 class="text-xl font-semibold mb-4" data-lang-key="ajouter-cotisation">Ajouter une cotisation</h3>
+          <form id="form-cotisation" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium mb-1" data-lang-key="membre">Membre</label>
+              <input type="text" id="membre" class="w-full p-3 border rounded" placeholder="Nom du membre" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" data-lang-key="mois">Mois</label>
+              <select id="mois" class="w-full p-3 border rounded" required>
+                <option value="">Sélectionner...</option>
+                <option value="Janvier">Janvier</option>
+                <option value="Février">Février</option>
+                <option value="Mars">Mars</option>
+                <option value="Avril">Avril</option>
+                <option value="Mai">Mai</option>
+                <option value="Juin">Juin</option>
+                <option value="Juillet">Juillet</option>
+                <option value="Août">Août</option>
+                <option value="Septembre">Septembre</option>
+                <option value="Octobre">Octobre</option>
+                <option value="Novembre">Novembre</option>
+                <option value="Décembre">Décembre</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1" data-lang-key="montant">Montant (FCFA)</label>
+              <input type="number" id="montant" class="w-full p-3 border rounded" placeholder="5000" required>
+            </div>
+            <div class="md:col-span-3">
+              <label class="block text-sm font-medium mb-1" data-lang-key="description">Description / Pièce</label>
+              <input type="text" id="description" class="w-full p-3 border rounded" placeholder="Cotisation mensuelle + reçu Mobile Money">
+            </div>
+            <div class="md:col-span-3 flex justify-end">
+              <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-medium">
+                <span data-lang-key="enregistrer">Enregistrer</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Tableau des cotisations -->
+        <div class="bg-white p-6 rounded-lg shadow overflow-x-auto">
+          <h3 class="text-xl font-semibold mb-4">Liste des cotisations</h3>
+          <table class="w-full min-w-[600px] border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="p-3 text-left border-b" data-lang-key="mois">Mois</th>
+                <th class="p-3 text-left border-b" data-lang-key="membre">Membre</th>
+                <th class="p-3 text-left border-b" data-lang-key="montant">Montant</th>
+                <th class="p-3 text-left border-b" data-lang-key="statut">Statut</th>
+                <th class="p-3 text-left border-b">Description</th>
+              </tr>
+            </thead>
+            <tbody id="cotisations-table">
+              <!-- Lignes ajoutées par JS -->
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div id="utilisateurs" class="module hidden">
-        <h2 class="text-3xl font-bold mb-4" data-lang-key="utilisateurs-titre">Utilisateurs & Rôles</h2>
-        <p data-lang-key="utilisateurs-description">Gestion des super administrateurs, administrateurs, utilisateurs, membres et visiteurs.</p>
+        <h2 class="text-3xl font-bold mb-4" data-lang-key="utilisateurs-titre">Gestion des Utilisateurs & Rôles</h2>
+        <p class="text-lg text-gray-600" data-lang-key="utilisateurs-description">Super administrateurs, administrateurs, utilisateurs, membres, visiteurs et autres rôles.</p>
       </div>
 
       <div id="securite" class="module hidden">
         <h2 class="text-3xl font-bold mb-4" data-lang-key="securite-titre">Sécurité & Connexion</h2>
-        <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow">
-          <h3 class="text-xl font-semibold mb-4" data-lang-key="login-titre">Se connecter</h3>
-          <input type="email" placeholder="Email" class="w-full p-3 mb-3 border rounded" id="email">
-          <input type="password" placeholder="Mot de passe" class="w-full p-3 mb-4 border rounded" id="password">
-          <button onclick="login()" class="w-full bg-blue-600 text-white py-3 rounded font-medium hover:bg-blue-700">
-            <span data-lang-key="se-connecter">Se connecter</span>
-          </button>
-        </div>
+        <p class="text-lg text-gray-600" data-lang-key="securite-description">Connectez-vous pour accéder aux zones protégées.</p>
       </div>
 
       <div id="evenements" class="module hidden">
         <h2 class="text-3xl font-bold mb-4" data-lang-key="evenements-titre">Événements & Formations</h2>
-        <p data-lang-key="evenements-description">Calendrier des prochaines activités, formations et rencontres.</p>
-      </div> <div id="rapports" class="module hidden">
-  <h2 class="text-3xl font-bold mb-6" data-lang-key="rapports-titre">Rapports & États</h2>
-  <p class="text-lg text-gray-600 mb-8" data-lang-key="rapports-description">
-    Générez et exportez les états financiers et administratifs nécessaires à la transparence et au contrôle.
-  </p>
-
-  <!-- Sélecteur d'état -->
-  <div class="bg-white p-6 rounded-lg shadow mb-8">
-    <label for="etat-select" class="block text-lg font-medium mb-3" data-lang-key="choisir-etat">
-     Choisir l'état à générer :</label>
-    <select id="etat-select" class="w-full p-3 border rounded mb-6 text-base">
-      <option value="">-- Sélectionner un état --</option>
-      <option value="liste-membres">Liste complète des membres</option>
-      <option value="membres-a-jour">Membres à jour</option>
-      <option value="membres-endettes">Membres endettés / en retard</option>
-      <option value="membres-critique">Membres en situation critique</option>
-      <option value="cagnotte-emprunts">Cagnotte disponible pour les emprunts</option>
-      <option value="membres-empruntables">Membres pouvant emprunter</option>
-      <option value="interets-depots">Intérêts générés par les dépôts</option>
-      <option value="mouvements-recents">Mouvements financiers récents (30 jours)</option>
-      <option value="bilan-tresorerie">Bilan de trésorerie simplifié</option>
-      <option value="historique-cotisations">Historique cotisations par membre</option>
-    </select>
-
-    <!-- Boutons d'action -->
-    <div class="flex flex-wrap gap-4">
-      <button onclick="genererRapport()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-medium">
-        <span data-lang-key="generer">Générer</span>
-      </button>
-      <button onclick="exporterPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded font-medium">
-        <span data-lang-key="exporter-pdf">Exporter PDF</span>
-      </button>
-      <button onclick="exporterExcel()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded font-medium">
-        <span data-lang-key="exporter-excel">Exporter Excel</span>
-      </button>
-      <button onclick="exporterWord()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded font-medium">
-        <span data-lang-key="exporter-word">Exporter Word</span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Zone d'affichage du rapport -->
-  <div id="rapport-content" class="bg-white p-6 rounded-lg shadow min-h-[400px] overflow-auto">
-    <p class="text-gray-500 text-center py-12" data-lang-key="rapport-vide">
-      Sélectionnez un état et cliquez sur "Générer"
-    </p>
-  </div>
-  </div>
-      <div id="comptes" class="module hidden p-6">
-  <h2 class="text-3xl font-bold mb-6" data-lang-key="comptes-titre">Comptes des Membres & Caisses</h2>
-  <p class="text-lg text-gray-600 mb-8" data-lang-key="comptes-description">
-    Suivi des cotisations, épargne, dépenses et autres mouvements financiers.
-  </p>
-
-  <!-- Formulaire d'ajout rapide -->
-  <div class="bg-white p-6 rounded-lg shadow mb-8">
-    <h3 class="text-xl font-semibold mb-4" data-lang-key="ajouter-cotisation">Ajouter une cotisation</h3>
-    <form id="form-cotisation" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div>
-        <label class="block text-sm font-medium mb-1" data-lang-key="membre">Membre</label>
-        <input type="text" id="membre" class="w-full p-3 border rounded" placeholder="Nom du membre" required>
+        <p class="text-lg text-gray-600" data-lang-key="evenements-description">Calendrier des prochaines activités, formations et rencontres de l’AISP.</p>
       </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" data-lang-key="mois">Mois</label>
-        <select id="mois" class="w-full p-3 border rounded" required>
-          <option value="">Sélectionner...</option>
-          <option value="Janvier">Janvier</option>
-          <option value="Février">Février</option>
-          <option value="Mars">Mars</option>
-          <option value="Avril">Avril</option>
-          <option value="Mai">Mai</option>
-          <option value="Juin">Juin</option>
-          <option value="Juillet">Juillet</option>
-          <option value="Août">Août</option>
-          <option value="Septembre">Septembre</option>
-          <option value="Octobre">Octobre</option>
-          <option value="Novembre">Novembre</option>
-          <option value="Décembre">Décembre</option>
-        </select>
-      </div>
-      <div>
-        <label class="block text-sm font-medium mb-1" data-lang-key="montant">Montant (FCFA)</label>
-        <input type="number" id="montant" class="w-full p-3 border rounded" placeholder="Ex: 5000" required min="0">
-      </div>
-      <div class="md:col-span-3">
-        <label class="block text-sm font-medium mb-1" data-lang-key="description">Description / Pièce</label>
-        <input type="text" id="description" class="w-full p-3 border rounded" placeholder="Ex: Cotisation mensuelle janvier 2026">
-      </div>
-      <div class="md:col-span-3 flex justify-end">
-        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded font-medium">
-          Enregistrer
-        </button>
-      </div>
-    </form>
-  </div>
 
-  <!-- Tableau des cotisations -->
-  <div class="bg-white p-6 rounded-lg shadow overflow-x-auto">
-    <h3 class="text-xl font-semibold mb-4">Liste des cotisations</h3>
-    <table id="table-cotisations" class="w-full min-w-[600px] border-collapse">
-      <thead>
-        <tr class="bg-gray-100">
-          <th class="p-3 text-left border-b">N°</th>
-          <th class="p-3 text-left border-b" data-lang-key="membre">Membre</th>
-          <th class="p-3 text-left border-b" data-lang-key="mois">Mois</th>
-          <th class="p-3 text-left border-b" data-lang-key="montant">Montant</th>
-          <th class="p-3 text-left border-b" data-lang-key="statut">Statut</th>
-          <th class="p-3 text-left border-b">Date</th>
-        </tr>
-      </thead>
-      <tbody id="cotisations-body">
-        <!-- Les lignes seront ajoutées par JS -->
-      </tbody>
-    </table>
-  </div>
-  </div>
+      <div id="rapports" class="module hidden">
+        <h2 class="text-3xl font-bold mb-4" data-lang-key="rapports-titre">Rapports & États</h2>
+        <p class="text-lg text-gray-600" data-lang-key="rapports-description">Générez et exportez les états financiers et administratifs nécessaires à la transparence et au contrôle.</p>
+      </div>
     </main>
   </div>
 
   <script src="js/lang.js"></script>
-  <script>
-    // Gestion menu mobile
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-      document.getElementById('overlay').classList.toggle('hidden');
-    }
-
-    // Afficher un module
-    function showModule(id) {
-      document.querySelectorAll('.module').forEach(m => m.classList.add('hidden'));
-      document.getElementById(id).classList.remove('hidden');
-      if (window.innerWidth < 768) toggleSidebar(); // ferme menu mobile
-    }
-
-    // Déconnexion (simple pour l’instant)
-    function logout() {
-      alert("Déconnexion simulée. À implémenter plus tard.");
-    }
-
-    // Login simple (pour test)
-    function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      alert("Connexion simulée pour : " + email + "\nMot de passe : " + password);
-    }
-
-    // Afficher accueil au démarrage
-    showModule('accueil');
-  </script>
 </body>
 </html>
