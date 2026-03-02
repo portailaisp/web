@@ -28,6 +28,7 @@ const texts = {
     "statut": "Statut",
     "paye": "Payé",
     "en-attente": "En attente",
+    "membre": "Membre",  // Ici !
 
     // Module Utilisateurs & Rôles
     "utilisateurs-titre": "Gestion des Utilisateurs & Rôles",
@@ -107,6 +108,7 @@ const texts = {
     "statut": "Status",
     "paye": "Paid",
     "en-attente": "Pending",
+    "membre": "Member",  // Ici !
 
     "utilisateurs-titre": "Users & Roles Management",
     "utilisateurs-description": "Super admins, admins, users, members, visitors and other roles.",
