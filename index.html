@@ -181,6 +181,74 @@
     </p>
   </div>
   </div>
+      <div id="comptes" class="module hidden p-6">
+  <h2 class="text-3xl font-bold mb-6" data-lang-key="comptes-titre">Comptes des Membres & Caisses</h2>
+  <p class="text-lg text-gray-600 mb-8" data-lang-key="comptes-description">
+    Suivi des cotisations, épargne, dépenses et autres mouvements financiers.
+  </p>
+
+  <!-- Formulaire d'ajout rapide -->
+  <div class="bg-white p-6 rounded-lg shadow mb-8">
+    <h3 class="text-xl font-semibold mb-4" data-lang-key="ajouter-cotisation">Ajouter une cotisation</h3>
+    <form id="form-cotisation" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div>
+        <label class="block text-sm font-medium mb-1" data-lang-key="membre">Membre</label>
+        <input type="text" id="membre" class="w-full p-3 border rounded" placeholder="Nom du membre" required>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" data-lang-key="mois">Mois</label>
+        <select id="mois" class="w-full p-3 border rounded" required>
+          <option value="">Sélectionner...</option>
+          <option value="Janvier">Janvier</option>
+          <option value="Février">Février</option>
+          <option value="Mars">Mars</option>
+          <option value="Avril">Avril</option>
+          <option value="Mai">Mai</option>
+          <option value="Juin">Juin</option>
+          <option value="Juillet">Juillet</option>
+          <option value="Août">Août</option>
+          <option value="Septembre">Septembre</option>
+          <option value="Octobre">Octobre</option>
+          <option value="Novembre">Novembre</option>
+          <option value="Décembre">Décembre</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" data-lang-key="montant">Montant (FCFA)</label>
+        <input type="number" id="montant" class="w-full p-3 border rounded" placeholder="Ex: 5000" required min="0">
+      </div>
+      <div class="md:col-span-3">
+        <label class="block text-sm font-medium mb-1" data-lang-key="description">Description / Pièce</label>
+        <input type="text" id="description" class="w-full p-3 border rounded" placeholder="Ex: Cotisation mensuelle janvier 2026">
+      </div>
+      <div class="md:col-span-3 flex justify-end">
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded font-medium">
+          Enregistrer
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tableau des cotisations -->
+  <div class="bg-white p-6 rounded-lg shadow overflow-x-auto">
+    <h3 class="text-xl font-semibold mb-4">Liste des cotisations</h3>
+    <table id="table-cotisations" class="w-full min-w-[600px] border-collapse">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="p-3 text-left border-b">N°</th>
+          <th class="p-3 text-left border-b" data-lang-key="membre">Membre</th>
+          <th class="p-3 text-left border-b" data-lang-key="mois">Mois</th>
+          <th class="p-3 text-left border-b" data-lang-key="montant">Montant</th>
+          <th class="p-3 text-left border-b" data-lang-key="statut">Statut</th>
+          <th class="p-3 text-left border-b">Date</th>
+        </tr>
+      </thead>
+      <tbody id="cotisations-body">
+        <!-- Les lignes seront ajoutées par JS -->
+      </tbody>
+    </table>
+  </div>
+  </div>
     </main>
   </div>
 
