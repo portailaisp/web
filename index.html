@@ -27,10 +27,6 @@
       #sidebar.open { transform: translateX(0); }
       #overlay { display: block; }
     }
-    table { border-collapse: collapse; }
-    th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
-    th { background-color: #f2f2f2; }
-    input, select, textarea { border: 1px solid #ddd; padding: 8px; border-radius: 4px; }
   </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -55,36 +51,12 @@
 
       <nav class="flex-1 p-4 overflow-y-auto">
         <ul class="space-y-2">
-          <li>
-            <a href="#" onclick="showModule('accueil')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
-              🏠 <span data-lang-key="accueil">Accueil</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" onclick="showModule('comptes')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
-              💰 <span data-lang-key="comptes">Comptes & Caisses</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" onclick="showModule('utilisateurs')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
-              👥 <span data-lang-key="utilisateurs">Utilisateurs & Rôles</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" onclick="showModule('securite')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
-              🔒 <span data-lang-key="securite">Sécurité</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" onclick="showModule('evenements')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
-              📅 <span data-lang-key="evenements">Événements</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" onclick="showModule('rapports')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">
-              📊 <span data-lang-key="rapports">Rapports & États</span>
-            </a>
-          </li>
+          <li><a href="#" onclick="showModule('accueil')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">🏠 <span data-lang-key="accueil">Accueil</span></a></li>
+          <li><a href="#" onclick="showModule('comptes')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">💰 <span data-lang-key="comptes">Comptes & Caisses</span></a></li>
+          <li><a href="#" onclick="showModule('utilisateurs')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">👥 <span data-lang-key="utilisateurs">Utilisateurs & Rôles</span></a></li>
+          <li><a href="#" onclick="showModule('securite')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">🔒 <span data-lang-key="securite">Sécurité</span></a></li>
+          <li><a href="#" onclick="showModule('evenements')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">📅 <span data-lang-key="evenements">Événements</span></a></li>
+          <li><a href="#" onclick="showModule('rapports')" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-blue-50 text-gray-700 font-medium">📊 <span data-lang-key="rapports">Rapports & États</span></a></li>
         </ul>
       </nav>
 
@@ -140,14 +112,14 @@
             </div>
             <div>
               <label class="block text-sm font-medium mb-1" data-lang-key="montant">Montant (FCFA)</label>
-              <input type="number" id="montant" class="w-full p-3 border rounded" placeholder="5000" required>
+              <input type="number" id="montant" class="w-full p-3 border rounded" placeholder="Ex: 5000" required min="0">
             </div>
             <div class="md:col-span-3">
               <label class="block text-sm font-medium mb-1" data-lang-key="description">Description / Pièce</label>
-              <input type="text" id="description" class="w-full p-3 border rounded" placeholder="Cotisation mensuelle + reçu Mobile Money">
+              <input type="text" id="description" class="w-full p-3 border rounded" placeholder="Ex: Cotisation mensuelle + reçu Mobile Money">
             </div>
             <div class="md:col-span-3 flex justify-end">
-              <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded font-medium">
+              <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded font-medium">
                 <span data-lang-key="enregistrer">Enregistrer</span>
               </button>
             </div>
@@ -160,14 +132,15 @@
           <table class="w-full min-w-[600px] border-collapse">
             <thead>
               <tr class="bg-gray-100">
-                <th class="p-3 text-left border-b" data-lang-key="mois">Mois</th>
+                <th class="p-3 text-left border-b">N°</th>
                 <th class="p-3 text-left border-b" data-lang-key="membre">Membre</th>
+                <th class="p-3 text-left border-b" data-lang-key="mois">Mois</th>
                 <th class="p-3 text-left border-b" data-lang-key="montant">Montant</th>
                 <th class="p-3 text-left border-b" data-lang-key="statut">Statut</th>
-                <th class="p-3 text-left border-b">Description</th>
+                <th class="p-3 text-left border-b">Date</th>
               </tr>
             </thead>
-            <tbody id="cotisations-table">
+            <tbody id="cotisations-body">
               <!-- Lignes ajoutées par JS -->
             </tbody>
           </table>
@@ -196,6 +169,30 @@
     </main>
   </div>
 
+  <!-- Scripts -->
   <script src="js/lang.js"></script>
+  <script>
+    // Gestion menu mobile
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('overlay').classList.toggle('hidden');
+    }
+
+    // Afficher un module
+    function showModule(moduleId) {
+      document.querySelectorAll('.module').forEach(m => m.classList.add('hidden'));
+      const target = document.getElementById(moduleId);
+      if (target) target.classList.remove('hidden');
+      if (window.innerWidth < 768) toggleSidebar();
+    }
+
+    // Simulation logout
+    function logout() {
+      alert("Déconnexion simulée. À implémenter plus tard.");
+    }
+
+    // Afficher accueil au démarrage
+    showModule('accueil');
+  </script>
 </body>
 </html>
